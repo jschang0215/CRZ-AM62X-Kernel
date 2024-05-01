@@ -1,0 +1,69 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * AM625 SK: INNOLUX - at070tn92 RGB LCD panel
+ *
+ * Copyright (C) 2021-2022 Texas Instruments Incorporated - https://www.ti.com/
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include "k3-pinctrl.h"
+
+&{/} {
+	display {
+		compatible = "innolux,at070tn92";
+		backlight = <&lcd_bl>;
+		enable-gpios = <&main_gpio0 36 GPIO_ACTIVE_HIGH>;
+
+		port {
+			lcd_in0: endpoint {
+				remote-endpoint = <&dpi1_out>;
+			};
+		};
+	};
+};
+
+&main_pmx0 {
+	mango_ts_pins_default: mango_ts-pins-default {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00A4, PIN_INPUT, 7) /* (M22) GPMC0_DIR.GPIO0_40 */
+		>;
+	};
+};
+
+&main_i2c1 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+    touchscreen_ts2007: tsc2007@4a {
+            compatible = "ti,tsc2007";
+            reg = <0x4a>;
+
+            pinctrl-names = "default";
+            pinctrl-0 = <&mango_ts_pins_default>;
+            interrupt-parent = <&main_gpio0>;
+            interrupts = <40 IRQ_TYPE_EDGE_FALLING>;
+            gpios = <&main_gpio0 40 GPIO_ACTIVE_LOW>;
+
+            ti,x-plate-ohms = <660>;
+            linux,wakeup;
+    };
+};
+
+
+&dss_ports {
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+	port@1 {
+        reg = <1>;
+		dpi1_out: endpoint {
+			remote-endpoint = <&lcd_in0>;
+		};
+	};
+};
+
+

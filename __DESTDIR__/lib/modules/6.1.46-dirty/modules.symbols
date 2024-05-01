@@ -1,0 +1,10 @@
+# Aliases for symbols, used by symbol_request().
+alias symbol:RGXHWPerfConnect pvrsrvkm
+alias symbol:RGXHWPerfReleaseEvents pvrsrvkm
+alias symbol:RGXHWPerfConfigMuxCounters pvrsrvkm
+alias symbol:RGXHWPerfDisconnect pvrsrvkm
+alias symbol:RGXHWPerfDisableCounters pvrsrvkm
+alias symbol:RGXHWPerfControl pvrsrvkm
+alias symbol:RGXHWPerfConvertCRTimeStamp pvrsrvkm
+alias symbol:RGXHWPerfConfigureAndEnableCustomCounters pvrsrvkm
+alias symbol:RGXHWPerfAcquireEvents pvrsrvkm
